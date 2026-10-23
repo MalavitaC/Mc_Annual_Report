@@ -1,0 +1,2 @@
+# Mc_Annual_Report-
+基于麦当劳官方MCP打造的生成用户过去一年在麦当劳消费情况的年度报告Skills
