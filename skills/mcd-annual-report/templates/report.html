@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>麦当劳年度报告</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#DA291C; --red-hi:#E8412F; --red-lo:#9E140D;
+  --yellow:#FFC72C; --yellow-hi:#FFD75E; --yellow-lo:#EFA500;
+  --cream:#FFF8E7; --ink:#151210;
+  --m-white:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 82'%3E%3Cpath fill='%23FFFFFF' d='M8%2082V44C8%2022%2019%208%2030%208c9%200%2015%209%2020%2025%205-16%2011-25%2020-25%2011%200%2022%2014%2022%2036v38H74V46c0-13-3-20-7-20s-8%207-10%2020v36H43V46c0-13-3-20-7-20s-8%207-10%2020v36H8Z'/%3E%3C/svg%3E");
+  --m-red:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 82'%3E%3Cpath fill='%23DA291C' d='M8%2082V44C8%2022%2019%208%2030%208c9%200%2015%209%2020%2025%205-16%2011-25%2020-25%2011%200%2022%2014%2022%2036v38H74V46c0-13-3-20-7-20s-8%207-10%2020v36H43V46c0-13-3-20-7-20s-8%207-10%2020v36H8Z'/%3E%3C/svg%3E");
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html,body{height:100%}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased;
+}
+#deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior-y:contain;scroll-behavior:smooth;scrollbar-width:none}
+#deck::-webkit-scrollbar{display:none}
+#grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.055;background-image:var(--noise);mix-blend-mode:overlay}
+
+section{
+  position:relative;height:100vh;min-height:100vh;
+  scroll-snap-align:start;scroll-snap-stop:always;
+  display:flex;align-items:center;overflow:hidden;
+  padding:clamp(28px,7vh,78px) clamp(20px,6vw,96px);
+}
+.s-red{background:radial-gradient(135% 105% at 6% -12%,var(--red-hi) 0%,var(--red) 38%,var(--red-lo) 100%);color:#fff}
+.s-cream{background:radial-gradient(125% 105% at 94% -12%,#FFFDF7 0%,var(--cream) 44%,#F5E6C8 100%);color:var(--ink)}
+.s-dark{background:radial-gradient(125% 105% at 14% -12%,#372A21 0%,#1B1512 46%,#0B0806 100%);color:#fff}
+.s-yellow{background:radial-gradient(125% 105% at 18% -12%,#FFE28A 0%,var(--yellow) 46%,var(--yellow-lo) 100%);color:var(--ink)}
+.s-red,.s-dark{--deco:var(--m-white);--card-bg:rgba(255,255,255,.085);--card-bd:rgba(255,255,255,.2);--card-sh:none;--line:rgba(255,255,255,.24)}
+.s-cream{--deco:var(--m-red);--card-bg:rgba(255,255,255,.72);--card-bd:rgba(21,18,16,.07);--card-sh:0 24px 48px -32px rgba(96,50,10,.65);--line:rgba(21,18,16,.13)}
+.s-yellow{--deco:var(--m-red);--card-bg:rgba(255,255,255,.4);--card-bd:rgba(21,18,16,.11);--card-sh:0 22px 44px -32px rgba(130,86,0,.55);--line:rgba(21,18,16,.16)}
+
+.deco{position:absolute;inset:0;pointer-events:none;z-index:0}
+.deco.pattern{background-image:var(--deco);background-repeat:repeat;background-size:132px auto;opacity:.035}
+.deco.arch{background-image:var(--deco);background-repeat:no-repeat;background-position:right -6vmin bottom -14vmin;background-size:74vmin auto;opacity:.06}
+.page-tag{
+  position:absolute;top:clamp(-16px,-1.6vh,-4px);right:clamp(4px,3vw,44px);z-index:1;pointer-events:none;
+  font-size:clamp(110px,24vw,300px);font-weight:900;line-height:.72;letter-spacing:-.07em;
+  color:transparent;-webkit-text-stroke:1.5px currentColor;opacity:.085;font-variant-numeric:tabular-nums;
+}
+.runhead{position:absolute;top:clamp(14px,3vh,26px);left:clamp(20px,6vw,96px);z-index:4;display:flex;align-items:center;gap:9px;font-size:10px;font-weight:800;letter-spacing:.26em;opacity:.45}
+.runhead svg{width:17px;height:auto;color:var(--yellow)}
+.s-cream .runhead svg,.s-yellow .runhead svg{color:var(--red)}
+
+.content{position:relative;z-index:3;width:100%;max-width:1160px;margin:0 auto}
+.content.split .split-inner{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(22px,5vw,76px);align-items:center}
+.stack{display:flex;flex-direction:column;gap:clamp(12px,2.2vh,22px)}
+
+.eyebrow{font-size:clamp(10px,1.3vw,12px);letter-spacing:.3em;font-weight:800;text-transform:uppercase;opacity:.55}
+h1{font-size:clamp(33px,6.8vw,74px);font-weight:900;line-height:1.02;letter-spacing:-.03em}
+h2{font-size:clamp(23px,4.3vw,48px);font-weight:900;line-height:1.1;letter-spacing:-.02em}
+.lead{font-size:clamp(14px,1.8vw,19px);line-height:1.8;opacity:.82;max-width:30em}
+.small{font-size:clamp(11px,1.4vw,13px);line-height:1.75;opacity:.55;max-width:32em}
+.big{font-size:clamp(56px,13vw,138px);font-weight:900;line-height:.82;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.unit{font-size:.28em;font-weight:800;margin-left:.16em;letter-spacing:0;opacity:.65}
+.hl{color:var(--yellow)}
+.s-cream .hl,.s-yellow .hl{color:var(--red)}
+.quote{font-size:clamp(15px,2.2vw,24px);font-weight:800;line-height:1.65;max-width:24em}
+.cover-mark{width:clamp(46px,6.4vw,74px);height:auto;color:var(--yellow);display:block}
+
+.stats-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(9px,1.5vw,15px)}
+.stat-card{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:18px;padding:clamp(13px,1.9vw,21px);box-shadow:var(--card-sh)}
+.stat-card .k{font-size:clamp(25px,3.9vw,43px);font-weight:900;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.stat-card .u{font-size:.4em;font-weight:800;margin-left:.1em;opacity:.6}
+.stat-card .l{font-size:clamp(10px,1.25vw,12px);opacity:.55;margin-top:9px;font-weight:700;letter-spacing:.05em}
+
+.panel{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:20px;padding:clamp(15px,2.2vw,26px);box-shadow:var(--card-sh)}
+.bars{display:flex;flex-direction:column;gap:clamp(7px,1.2vh,12px)}
+.bar-row{display:grid;grid-template-columns:4.6em 1fr 2.6em;align-items:center;gap:11px}
+.bar-row .lab{font-size:clamp(11px,1.4vw,14px);font-weight:700;opacity:.75}
+.bar-track{height:clamp(8px,1.2vh,12px);background:rgba(127,127,127,.18);border-radius:99px;overflow:hidden}
+.bar-fill{display:block;height:100%;width:0;border-radius:99px;background:var(--yellow);transition:width 1.05s cubic-bezier(.2,.7,.3,1) .3s}
+.s-cream .bar-fill,.s-yellow .bar-fill{background:var(--red)}
+section.in .bar-fill{width:var(--w,0%)}
+.bar-row .num{font-size:clamp(11px,1.4vw,14px);font-weight:800;text-align:right;opacity:.6;font-variant-numeric:tabular-nums}
+
+.receipt{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:20px;padding:clamp(16px,2.4vw,28px) clamp(17px,2.6vw,30px);box-shadow:var(--card-sh);width:100%;max-width:740px;margin:clamp(14px,3vh,30px) auto 0}
+.row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:clamp(9px,1.5vh,14px) 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row .name{font-size:clamp(14px,1.85vw,19px);font-weight:800}
+.row .rank{font-size:clamp(10px,1.25vw,12px);font-weight:900;opacity:.4;margin-right:10px;font-variant-numeric:tabular-nums}
+.row .times{font-size:clamp(12px,1.55vw,15px);font-weight:800;opacity:.72;white-space:nowrap}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(10px,1.8vw,18px);margin-top:clamp(14px,3vh,32px)}
+.card{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:18px;box-shadow:var(--card-sh);padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:9px;min-height:132px}
+.card .city{font-size:clamp(10px,1.25vw,11px);letter-spacing:.2em;font-weight:800;opacity:.5}
+.card .shop{font-size:clamp(14px,1.75vw,18px);font-weight:900;line-height:1.35}
+.card .cnt{margin-top:auto;font-size:clamp(11px,1.4vw,13px);opacity:.62}
+
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2.4vw,30px);margin-top:clamp(16px,4vh,38px)}
+.duo .item{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:18px;box-shadow:var(--card-sh);padding:clamp(15px,2.2vw,26px)}
+.duo .tag{font-size:clamp(9px,1.2vw,11px);letter-spacing:.24em;font-weight:900;opacity:.5;margin-bottom:10px}
+.duo .amt{font-size:clamp(30px,5.2vw,54px);font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.duo .amt .unit{font-size:.3em}
+.duo .meta{font-size:clamp(11px,1.4vw,14px);opacity:.7;margin-top:10px;line-height:1.65}
+
+.sticker{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:var(--yellow);color:#151210;padding:7px 15px;border-radius:8px;font-size:clamp(10px,1.3vw,12px);font-weight:900;letter-spacing:.06em;box-shadow:0 5px 0 rgba(0,0,0,.15);transform:rotate(-1.4deg)}
+.s-yellow .sticker{background:#fff}
+.hint{display:flex;align-items:center;gap:9px;font-size:clamp(10px,1.3vw,12px);font-weight:700;letter-spacing:.1em;opacity:.55;margin-top:clamp(18px,4vh,34px)}
+.hint .arrow{animation:bob 1.9s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.footer-note{margin-top:clamp(16px,3.4vh,32px);font-size:clamp(10px,1.25vw,12px);line-height:1.85;opacity:.45;max-width:38em}
+
+.strip{position:absolute;left:0;right:0;bottom:0;height:clamp(40px,5.5vh,54px);display:flex;align-items:center;overflow:hidden;border-top:1.5px solid currentColor;z-index:4;opacity:.8}
+.strip .track{display:flex;gap:2.6em;white-space:nowrap;animation:marq 30s linear infinite;font-size:clamp(9px,1.2vw,12px);font-weight:900;letter-spacing:.22em;padding-left:2.6em}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+#dots{position:fixed;right:clamp(7px,1.3vw,16px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:70}
+.dot{width:6px;height:6px;border-radius:99px;background:rgba(21,18,16,.2);border:0;padding:0;cursor:pointer;transition:all .3s ease}
+.dot.on{height:20px;background:var(--ink)}
+#dots.on-dark .dot{background:rgba(255,255,255,.3)}
+#dots.on-dark .dot.on{background:#fff}
+#pager{position:fixed;left:clamp(20px,6vw,96px);top:calc(clamp(14px,3vh,26px) + 28px);font-size:10px;font-weight:800;letter-spacing:.16em;opacity:.42;z-index:70;font-variant-numeric:tabular-nums}
+#nav{position:fixed;right:clamp(11px,2.2vw,28px);bottom:clamp(54px,7.5vh,72px);display:flex;flex-direction:column;gap:8px;z-index:71;color:rgba(21,18,16,.45)}
+#nav button{width:36px;height:36px;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:inherit;cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;opacity:.75;transition:opacity .22s ease,transform .22s ease}
+#nav button:hover{opacity:1;transform:translateY(-1px)}
+#nav button:disabled{opacity:.15;cursor:default;transform:none}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .72s cubic-bezier(.2,.7,.3,1),transform .72s cubic-bezier(.2,.7,.3,1);transition-delay:var(--d,0ms)}
+section.in .rv{opacity:1;transform:none}
+.note{margin-top:clamp(10px,2vh,18px)}
+
+@media (max-width:880px){
+  .content.split .split-inner{grid-template-columns:1fr;gap:22px}
+  .duo{grid-template-columns:1fr;gap:16px}
+  .bar-row{grid-template-columns:3.8em 1fr 2.2em;gap:8px}
+  .page-tag{font-size:34vw;opacity:.07}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv{transition:none;opacity:1;transform:none}
+  .bar-fill{transition:none}
+  .strip .track,.hint .arrow{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="deck"></div>
+<div id="grain" aria-hidden="true"></div>
+<nav id="dots" aria-hidden="true"></nav>
+<div id="pager"><span id="cur">01</span> / <span id="total">01</span></div>
+<div id="nav">
+  <button id="prev" type="button" aria-label="上一页">↑</button>
+  <button id="next" type="button" aria-label="下一页">↓</button>
+</div>
+
+<script>
+/* ===== REPORT_DATA_BEGIN =====
+ 本区块由 Skill 生成，其余部分不要改动。
+ 结构说明见 references/report-schema.md
+================================ */
+window.REPORT = {
+  "meta": {
+    "year": 2026,
+    "nickname": "麦友",
+    "generatedAt": "",
+    "coverage": ""
+  },
+  "pages": []
+};
+/* ===== REPORT_DATA_END ===== */
+</script>
+
+<script>
+(function(){
+  'use strict';
+
+  var R = window.REPORT || {};
+  var META = R.meta || {};
+  var PAGES = Array.isArray(R.pages) ? R.pages : [];
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  /* 只允许换行，其余字符一律转义 */
+  function text(s){ return esc(s).replace(/\n/g, '<br>'); }
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+
+  var M_PATH = 'M8 82V44C8 22 19 8 30 8c9 0 15 9 20 25 5-16 11-25 20-25 11 0 22 14 22 36v38H74V46c0-13-3-20-7-20s-8 7-10 20v36H43V46c0-13-3-20-7-20s-8 7-10 20v36H8Z';
+  function mMark(cls){
+    return '<svg class="' + (cls || '') + '" viewBox="0 0 100 82" fill="currentColor" aria-hidden="true"><path d="' + M_PATH + '"/></svg>';
+  }
+  function runhead(){
+    return '<div class="runhead">' + mMark('') + '<span>' + esc(META.year || '') + ' 年度报告</span></div>';
+  }
+  function strip(){
+    var items = ['麦当劳 · ' + (META.year || ''), '麦麦都记得', '麦友专属', '陪你吃饭的日子', '永远欢迎你'];
+    var one = items.map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('');
+    return '<div class="strip" aria-hidden="true"><div class="track">' + one + one + '</div></div>';
+  }
+
+  /* ---------- 版式组件（只排版，不含任何业务文案） ---------- */
+  var LAYOUTS = {
+
+    cover: function(p){
+      return '<div class="stack">'
+        + '<div class="rv" style="--d:80ms">' + mMark('cover-mark') + '</div>'
+        + (p.eyebrow ? '<div class="eyebrow rv" style="--d:180ms">' + esc(p.eyebrow) + '</div>' : '')
+        + '<h1 class="rv" style="--d:280ms">' + text(p.title) + '</h1>'
+        + (p.lead ? '<div class="lead rv" style="--d:420ms">' + text(p.lead) + '</div>' : '')
+        + (p.hint !== false ? '<div class="hint rv" style="--d:560ms"><span class="arrow">↓</span><span>' + esc(p.hint || '向下滑动，或按 ↓ 键') + '</span></div>' : '')
+        + '</div>';
+    },
+
+    hero: function(p){
+      return '<div class="stack">'
+        + (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        + '<div class="big rv" style="--d:100ms">' + esc(p.value != null ? p.value : '')
+          + (p.unit ? '<span class="unit">' + esc(p.unit) + '</span>' : '') + '</div>'
+        + (p.title ? '<h2 class="rv" style="--d:200ms">' + text(p.title) + '</h2>' : '')
+        + (p.lead ? '<div class="lead rv" style="--d:320ms">' + text(p.lead) + '</div>' : '')
+        + (p.note ? '<div class="small rv note" style="--d:440ms">' + text(p.note) + '</div>' : '')
+        + '</div>';
+    },
+
+    stats: function(p){
+      var items = (p.items || []).map(function(it){
+        return '<div class="stat-card">'
+          + '<div class="k">' + esc(it.value) + (it.unit ? '<span class="u">' + esc(it.unit) + '</span>' : '') + '</div>'
+          + '<div class="l">' + esc(it.label) + '</div>'
+          + '</div>';
+      }).join('');
+      return '<div class="split-inner">'
+        + '<div class="stack">'
+        +   (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        +   '<h2 class="rv" style="--d:100ms">' + text(p.title) + '</h2>'
+        +   (p.lead ? '<div class="lead rv" style="--d:220ms">' + text(p.lead) + '</div>' : '')
+        + '</div>'
+        + '<div class="stats-2 rv" style="--d:340ms">' + items + '</div>'
+        + '</div>';
+    },
+
+    bars: function(p){
+      var items = p.items || [];
+      var max = 0;
+      items.forEach(function(it){ var v = parseFloat(it.value) || 0; if (v > max) max = v; });
+      if (!max) max = 1;
+      var rows = items.map(function(it, i){
+        var v = parseFloat(it.value) || 0;
+        var pct = v / max * 100;
+        return '<div class="bar-row rv" style="--d:' + (140 + i * 70) + 'ms">'
+          + '<span class="lab">' + esc(it.label) + '</span>'
+          + '<span class="bar-track"><i class="bar-fill" style="--w:' + pct.toFixed(1) + '%"></i></span>'
+          + '<span class="num">' + esc(it.display != null ? it.display : it.value) + '</span>'
+          + '</div>';
+      }).join('');
+      return '<div class="split-inner">'
+        + '<div class="stack">'
+        +   (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        +   '<h2 class="rv" style="--d:100ms">' + text(p.title) + '</h2>'
+        +   (p.lead ? '<div class="lead rv" style="--d:220ms">' + text(p.lead) + '</div>' : '')
+        +   (p.note ? '<div class="small rv note" style="--d:300ms">' + text(p.note) + '</div>' : '')
+        + '</div>'
+        + '<div class="panel rv" style="--d:200ms"><div class="bars">' + rows + '</div></div>'
+        + '</div>';
+    },
+
+    list: function(p){
+      var rows = (p.items || []).map(function(it, i){
+        return '<div class="row rv" style="--d:' + (180 + i * 80) + 'ms">'
+          + '<span>' + (p.numbered !== false ? '<span class="rank">' + pad2(i + 1) + '</span>' : '')
+          + '<span class="name">' + esc(it.name) + '</span></span>'
+          + (it.meta ? '<span class="times">' + esc(it.meta) + '</span>' : '')
+          + '</div>';
+      }).join('');
+      return '<div class="stack">'
+        + (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        + '<h2 class="rv" style="--d:100ms">' + text(p.title) + '</h2>'
+        + (p.lead ? '<div class="lead rv" style="--d:200ms">' + text(p.lead) + '</div>' : '')
+        + (rows ? '<div class="receipt rv" style="--d:280ms">' + rows + '</div>' : '')
+        + (p.note ? '<div class="small rv note" style="--d:420ms">' + text(p.note) + '</div>' : '')
+        + '</div>';
+    },
+
+    cards: function(p){
+      var cards = (p.items || []).map(function(it, i){
+        return '<div class="card rv" style="--d:' + (180 + i * 80) + 'ms">'
+          + (it.kicker ? '<div class="city">' + esc(it.kicker) + '</div>' : '')
+          + '<div class="shop">' + text(it.title) + '</div>'
+          + (it.foot ? '<div class="cnt">' + esc(it.foot) + '</div>' : '')
+          + '</div>';
+      }).join('');
+      return '<div class="stack">'
+        + (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        + '<h2 class="rv" style="--d:100ms">' + text(p.title) + '</h2>'
+        + (p.lead ? '<div class="lead rv" style="--d:180ms">' + text(p.lead) + '</div>' : '')
+        + '<div class="cards">' + cards + '</div>'
+        + (p.note ? '<div class="small rv note" style="--d:480ms">' + text(p.note) + '</div>' : '')
+        + '</div>';
+    },
+
+    duo: function(p){
+      var items = (p.items || []).map(function(it, i){
+        return '<div class="item rv" style="--d:' + (160 + i * 120) + 'ms">'
+          + (it.tag ? '<div class="tag">' + esc(it.tag) + '</div>' : '')
+          + '<div class="amt">' + esc(it.value) + (it.unit ? '<span class="unit">' + esc(it.unit) + '</span>' : '') + '</div>'
+          + (it.meta ? '<div class="meta">' + text(it.meta) + '</div>' : '')
+          + '</div>';
+      }).join('');
+      return '<div class="stack">'
+        + (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        + (p.title ? '<h2 class="rv" style="--d:100ms">' + text(p.title) + '</h2>' : '')
+        + '<div class="duo">' + items + '</div>'
+        + (p.lead ? '<div class="lead rv note" style="--d:420ms">' + text(p.lead) + '</div>' : '')
+        + '</div>';
+    },
+
+    quote: function(p){
+      return '<div class="stack">'
+        + (p.eyebrow ? '<div class="eyebrow rv">' + esc(p.eyebrow) + '</div>' : '')
+        + (p.value != null ? '<div class="big rv" style="--d:100ms">' + esc(p.value)
+            + (p.unit ? '<span class="unit">' + esc(p.unit) + '</span>' : '') + '</div>' : '')
+        + (p.title ? '<h2 class="rv" style="--d:180ms">' + text(p.title) + '</h2>' : '')
+        + (p.quote ? '<div class="quote rv" style="--d:320ms">' + text(p.quote) + '</div>' : '')
+        + (p.note ? '<div class="small rv note" style="--d:440ms">' + text(p.note) + '</div>' : '')
+        + '</div>';
+    },
+
+    closing: function(p){
+      return '<div class="stack">'
+        + '<div class="rv" style="--d:60ms">' + mMark('cover-mark') + '</div>'
+        + (p.eyebrow ? '<div class="eyebrow rv" style="--d:140ms">' + esc(p.eyebrow) + '</div>' : '')
+        + '<h1 class="rv" style="--d:220ms">' + text(p.title) + '</h1>'
+        + (p.lead ? '<div class="lead rv" style="--d:320ms">' + text(p.lead) + '</div>' : '')
+        + '<div class="footer-note rv" style="--d:440ms">'
+        +   text(META.coverage || '')
+        +   (p.note ? '<br>' + text(p.note) : '')
+        +   '<br>本报告由第三方 Skill 生成，非麦当劳官方产品；餐品信息与价格以麦当劳官方渠道实时结果为准。'
+        + '</div>'
+        + '</div>';
+    }
+  };
+
+  var SPLIT = { stats:1, bars:1 };
+
+  /* ---------- 渲染 ---------- */
+  var html = PAGES.map(function(p, i){
+    var theme = 's-' + (p.theme || 'cream');
+    var fn = LAYOUTS[p.layout] || LAYOUTS.quote;
+    return '<section class="' + theme + '" data-i="' + i + '">'
+      + '<div class="deco pattern"></div>'
+      + '<div class="deco arch"></div>'
+      + '<div class="page-tag" aria-hidden="true">' + pad2(i + 1) + '</div>'
+      + runhead()
+      + '<div class="content' + (SPLIT[p.layout] ? ' split' : '') + '">' + fn(p) + '</div>'
+      + (p.strip ? strip() : '')
+      + '</section>';
+  }).join('');
+
+  if (!html){
+    html = '<section class="s-cream" data-i="0"><div class="content">'
+      + '<div class="stack"><div class="eyebrow">提示</div>'
+      + '<h2>这份报告没有内容</h2>'
+      + '<div class="lead">pages 数组为空。检查数据块是否写入成功。</div>'
+      + '</div></div></section>';
+  }
+
+  var DECK = document.getElementById('deck');
+  DECK.innerHTML = html;
+
+  var sections = Array.prototype.slice.call(DECK.querySelectorAll('section'));
+  var dotsBox = document.getElementById('dots');
+  var curEl = document.getElementById('cur');
+  var totalEl = document.getElementById('total');
+  totalEl.textContent = pad2(sections.length);
+
+  dotsBox.innerHTML = sections.map(function(s, i){
+    return '<button class="dot" data-i="' + i + '" aria-label="第 ' + (i + 1) + ' 页"></button>';
+  }).join('');
+
+  var dots = Array.prototype.slice.call(dotsBox.querySelectorAll('.dot'));
+  function setActive(i){
+    dots.forEach(function(d, k){ d.classList.toggle('on', k === i); });
+    curEl.textContent = pad2(i + 1);
+    var sec = sections[i];
+    var dark = !!sec && (sec.classList.contains('s-red') || sec.classList.contains('s-dark'));
+    dotsBox.classList.toggle('on-dark', dark);
+    var tint = dark ? 'rgba(255,255,255,.55)' : 'rgba(21,18,16,.45)';
+    var pager = document.getElementById('pager');
+    if (pager) pager.style.color = tint;
+    var navBox = document.getElementById('nav');
+    if (navBox) navBox.style.color = tint;
+    var pb = document.getElementById('prev'), nb = document.getElementById('next');
+    if (pb) pb.disabled = (i === 0);
+    if (nb) nb.disabled = (i === sections.length - 1);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && e.intersectionRatio > 0.55){
+        e.target.classList.add('in');
+        setActive(parseInt(e.target.dataset.i, 10));
+      }
+    });
+  }, { threshold: [0.55, 0.9] });
+  sections.forEach(function(s){ io.observe(s); });
+
+  function go(i){
+    if (i < 0 || i >= sections.length) return;
+    sections[i].scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){ go(parseInt(d.dataset.i, 10)); });
+  });
+
+  var current = 0;
+  var prevBtn = document.getElementById('prev'), nextBtn = document.getElementById('next');
+  if (prevBtn) prevBtn.addEventListener('click', function(){ go(current - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function(){ go(current + 1); });
+
+  var io2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && e.intersectionRatio > 0.55) current = parseInt(e.target.dataset.i, 10);
+    });
+  }, { threshold: 0.55 });
+  sections.forEach(function(s){ io2.observe(s); });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' '){ e.preventDefault(); go(current + 1); }
+    else if (e.key === 'ArrowUp' || e.key === 'PageUp'){ e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if (e.key === 'End'){ e.preventDefault(); go(sections.length - 1); }
+  });
+
+  requestAnimationFrame(function(){
+    if (sections[0]) sections[0].classList.add('in');
+    setActive(0);
+  });
+})();
+</script>
+</body>
+</html>

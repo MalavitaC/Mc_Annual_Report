@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcdonalds": {
+      "type": "http",
+      "url": "${MCD_MCP_ENDPOINT}",
+      "headers": {
+        "Authorization": "Bearer ${MCD_MCP_TOKEN}"
+      }
+    }
+  }
+}

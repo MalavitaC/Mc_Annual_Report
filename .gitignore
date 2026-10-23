@@ -1,0 +1,21 @@
+# 生成的报告产物（含真实消费数据与门店信息，不入库）
+mcd-annual-report-*.html
+
+# 本地 MCP 配置（可能包含真实 Token，切勿提交）
+.mcp.json
+mcp-config.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 依赖与日志（如后续扩展）
+node_modules/
+*.log
